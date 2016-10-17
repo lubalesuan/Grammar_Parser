@@ -2,8 +2,8 @@
 #include "parse_Tree.h"
 #include "arithm_Exp.h"
 
-int main (char num, char *argv) {
+int main (int num, char *argv[]) {
   //call termDigit to create array of digits
-
+  printf("all good");
 }
 
