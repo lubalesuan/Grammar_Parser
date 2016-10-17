@@ -11,9 +11,9 @@ deal with multi-line input.
 */
 #ifndef _parse_Tree_h
 #include <stdio.h> 
+#include <stdlib.h>
 
-typedef struct Node *PTree;
-extern int lookahead ();
+typedef struct PTree *PTree;
 extern PTree makeNode1  (char c, PTree t);
 extern PTree makeNode0 (char c);
 extern PTree makeNode2 (char c, PTree t1, PTree t2);

@@ -1,24 +1,45 @@
 #include <stdio.h> 
 #include "parse_Tree.h"
 #include "arithm_Exp.h"
+
+char *nextInputChar;
+char *term;
+PTree tree;
+
 PTree exec () {
 	termDigit();
-	printf(*nextInputChar);
+	printf("%c",*nextInputChar);
 	if (*nextInputChar == '(') {
-		F();
+		tree  = F();
 	} else {
-     for (int i = 1; i <sizeOf(term); i++) {
-    	printf(i);
+     for (int i = 1; i <sizeof(term); i++) {
+    	printf("%d",i);
     }
-	    //call E()
-		E();
+    //call E()
+		tree = E();
+    if (tree == FAILED) {
 	    //call T()
-	    T();
-	    //call N()
-	    N();
-	    //Call D()
-	    D();
-	        }
+	    tree = T();
+      if (tree == FAILED) {
+  	    //call N()
+  	    tree = N();
+        if (tree == FAILED) {
+    	    //Call D()
+    	    tree = D();
+          if (tree == FAILED) {
+            return FAILED;
+          }
+       } else {
+        return tree;
+       }
+      } else {
+        return tree;
+      }
+    } else {
+      return tree;
+    }
+	}
+  return FAILED;
 }
 
 
@@ -70,7 +91,7 @@ PTree K () {
    			return FAILED;
    		}
    } else {
-   	//TODO on empty
+   	  return makeNode1 ('K',makeNode0('e'));
    }
 }
 
@@ -85,6 +106,8 @@ PTree T () {
  	} else {
  		return FAILED;
  	}
+ } else {
+  return FAILED;
  }
 }
 
@@ -96,21 +119,30 @@ PTree M() {
     if (f != FAILED) {
     	m = M();
     	if (m!=FAILED) {
-    		return makeNode3('M',makeNode0('*'),f,m)
-    	}
+    		return makeNode3('M',makeNode0('*'),f,m);
+    	} else {
+        return FAILED;
+      }
+    } else {
+      return FAILED;
     }
-   } else if ((*nextInputChar == '/') {
+   } else if (*nextInputChar == '/') {
      f = F();
     if (f != FAILED) {
     	m = M();
     	if (m!=FAILED) {
-    		return makeNode3('M',makeNode0('/'),f,m)
-    	}
+    		return makeNode3('M',makeNode0('/'),f,m);
+    	} else {
+        return FAILED;
+      }
+    } else {
+      return FAILED;
     }
    } else {
    	return makeNode1('M',makeNode0('e')); //TODO check here
    }
-}
+  }
+
 
 //<F> -> (<E>) | <N>
 PTree F() {
@@ -119,7 +151,7 @@ PTree F() {
    e=E();
    if (e != FAILED) {
    	 if (*nextInputChar == ')') {
-   	 	return makeNode3('(',e,')')
+   	 	return makeNode3('F',makeNode0('('),e,makeNode0(')'));
    	 } else {
    	 	return FAILED;
    	 }
@@ -129,21 +161,21 @@ PTree F() {
  } else {
    n = N();
    if (n != FAILED) {
-    return makeNode1('N',n)
+    return makeNode1('N',n);
    } else {
    	return FAILED;
    }
  }
 }
 
-//<N> -> <D><T>
+//<N> -> <D><X>
 PTree N() {
  PTree d,x;
  d = D();
  if (d != FAILED) {
  	x = X();
- 	if (t != FAILED) {
- 		return makeNode2 ('N',d,x)
+ 	if (x != FAILED) {
+ 		return makeNode2 ('N',d,x);
  	} else {
  		return FAILED;
  	}
@@ -165,7 +197,7 @@ PTree X() {
 
 // char is Digit from 0 to 9
 PTree D () {
-	for (int i = 1; i < sizeOf(term); i++) {
+	for (int i = 1; i < sizeof(term); i++) {
 		if (*nextInputChar == term [i]) {
 			return makeNode1 ('D',makeNode0(term[i])); //TODO
 		}
@@ -175,14 +207,14 @@ PTree D () {
 
 ////array of terminals with which productinos start
 char* termDigit () {
-term = malloc(11*sizeOf(char)); 
+term = malloc(sizeof(char)*11); 
 int count = 0;
 term[0] = '('; 
-for (int i = 1; i < sizeOf(dig); i++) { //
+for (int i = 1; i < sizeof(term); i++) { //
    term[i]= count;
    count++;
 }
-return dig;
+return term;
 
 }
 
@@ -194,3 +226,7 @@ int matchTerminal(char c) {
  return 0;
  }
 }
+
+int lookahed (char c) {
+ return *nextInputChar == c;
+} 
