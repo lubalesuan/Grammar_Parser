@@ -9,12 +9,13 @@ newline).
 deal with multi-line input.
  Your program should exit on end-of-file on standard input.
 */
-#ifndef PARSE_TREE_H_
+#ifndef _parse_Tree_h
 #include <stdio.h> 
 
+typedef struct Node *PTree;
 extern int lookahead ();
-extern PTree makeNode1  (char c, PTree *t);
+extern PTree makeNode1  (char c, PTree t);
 extern PTree makeNode0 (char c);
-extern PTree makeNode2 (char c, PTree *t1, PTree *t2);
-extern PTree makeNode3 (char c, PTree *t1, PTree *t2, PTree *t3);
-#endif PARSE_TREE_H_
+extern PTree makeNode2 (char c, PTree t1, PTree t2);
+extern PTree makeNode3 (char c, PTree t1, PTree t2, PTree t3);
+#endif 
