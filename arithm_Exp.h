@@ -3,6 +3,7 @@
 #include "parse_Tree.h"
 #define FAILED NULL
 
+extern void arithmExp_new (char *argv);
 extern PTree exec();
 extern PTree E();
 extern PTree K ();

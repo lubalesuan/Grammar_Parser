@@ -6,9 +6,15 @@ char *nextInputChar;
 char *term;
 PTree tree;
 
+void arithmExp_new (char *argv) {
+term = termDigit();
+nextInputChar = argv;
+exec();
+}
+
 PTree exec () {
-	termDigit();
-	printf("%c",*nextInputChar);
+	term = termDigit();
+	printf("%s",nextInputChar);
 	if (*nextInputChar == '(') {
 		tree  = F();
 	} else {
@@ -19,26 +25,27 @@ PTree exec () {
 		tree = E();
     if (tree == FAILED) {
 	    //call T()
-	    tree = T();
-      if (tree == FAILED) {
-  	    //call N()
-  	    tree = N();
-        if (tree == FAILED) {
-    	    //Call D()
-    	    tree = D();
-          if (tree == FAILED) {
-            return FAILED;
-          }
-       } else {
-        return tree;
-       }
-      } else {
-        return tree;
-      }
-    } else {
-      return tree;
-    }
+	   //  tree = T();
+    //   if (tree == FAILED) {
+  	 //    //call N()
+  	 //    tree = N();
+    //     if (tree == FAILED) {
+    // 	    //Call D()
+    // 	    tree = D();
+    //       if (tree == FAILED) {
+    //         return FAILED;
+    //       }
+    //    } else {
+    //     return tree;
+    //    }
+    //   } else {
+    //     return tree;
+    //   }
+    // } else {
+    //   return tree;
+    // }
 	}
+}
   return FAILED;
 }
 
@@ -230,3 +237,6 @@ int matchTerminal(char c) {
 int lookahed (char c) {
  return *nextInputChar == c;
 } 
+
+
+
