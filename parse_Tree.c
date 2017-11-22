@@ -3,7 +3,7 @@
 ///should I nest if statements?
 #include <stdio.h> 
 #include "parse_Tree.h"
-
+#include <string>
 
 
  struct PTree {
